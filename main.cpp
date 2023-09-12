@@ -5,6 +5,8 @@
 #include <string>
 #include <sstream>
 #include <vector>
+#include <chrono>
+#include <iomanip>
 
 int main()
 {
@@ -14,12 +16,12 @@ int main()
 
     while (tasks <= 0)
     {
-        std::cout << "Enter the number of Factorials you want to compute (up to 100): \n";
+        std::cout << "Enter the number of Factorials you want to compute (only up to 20!): \n";
         std::getline(std::cin, input);
 
         std::stringstream mySS(input);
         // User input is a positive integer greater than 0 with no decimals
-        if (mySS >> tasks && tasks > 0 && tasks <= 100 && mySS.eof() && input.find('.') == std::string::npos)
+        if (mySS >> tasks && tasks > 0 && tasks <= 20 && mySS.eof() && input.find('.') == std::string::npos)
         {
             std::cout << tasks << " Factorial(s) to compute.\n";
         }
@@ -47,18 +49,26 @@ int main()
             std::cout << "Invalid number of Threads to solve\n";
         }
     }
-    std::cout << "got the input\n";
 
     Threadpool threadpool;
+    threadpool.start(threads);
+    auto startTime = std::chrono::high_resolution_clock::now();
+
     for (int i = 1; i <= tasks; i++)
     {
-        // Factorial factorial(i);
         threadpool.addTask(i);
-        std::cout << "put the task\n";
     }
-    threadpool.start(threads);
 
+    while (threadpool.busy())
+    {
+    }
+    auto endTime = std::chrono::high_resolution_clock::now();
     threadpool.stop();
+
+    auto duration = std::chrono::duration_cast<std::chrono::microseconds>(endTime - startTime);
+    double programTime = static_cast<double>(duration.count()) / 1e6;
+
+    std::cout << "Execution time is : " << std::setprecision(15) << programTime << std::endl;
 
     return 0;
 }

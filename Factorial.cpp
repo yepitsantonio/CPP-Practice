@@ -2,6 +2,8 @@
 
 #include "Factorial.h"
 
+int count = 0;
+
 Factorial::Factorial(int n) : number(n), result(1)
 {
 }
@@ -13,4 +15,6 @@ void Factorial::operator()()
         result *= i;
     }
     std::cout << result << std::endl;
+    count++;
+    std::cout << "The count is " << count << std::endl;
 }

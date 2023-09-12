@@ -10,8 +10,8 @@
 class Threadpool
 {
 public:
-    void start(int n);
-    void addTask(int n);
+    void start(int numThreads);
+    void addTask(int numTasks);
     bool busy();
     void stop();
 
