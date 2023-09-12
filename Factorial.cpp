@@ -1,3 +1,5 @@
+#include <iostream>
+
 #include "Factorial.h"
 
 Factorial::Factorial(int n) : number(n), result(1)
@@ -10,9 +12,5 @@ void Factorial::operator()()
     {
         result *= i;
     }
-}
-
-const int Factorial::getResult()
-{
-    return result;
+    std::cout << result << std::endl;
 }

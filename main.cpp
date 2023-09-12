@@ -4,6 +4,7 @@
 #include <thread>
 #include <string>
 #include <sstream>
+#include <vector>
 
 int main()
 {
@@ -13,12 +14,12 @@ int main()
 
     while (tasks <= 0)
     {
-        std::cout << "Enter the number of Factorials you want to compute: \n";
+        std::cout << "Enter the number of Factorials you want to compute (up to 100): \n";
         std::getline(std::cin, input);
 
         std::stringstream mySS(input);
         // User input is a positive integer greater than 0 with no decimals
-        if (mySS >> tasks && tasks > 0 && mySS.eof() && input.find('.') == std::string::npos)
+        if (mySS >> tasks && tasks > 0 && tasks <= 100 && mySS.eof() && input.find('.') == std::string::npos)
         {
             std::cout << tasks << " Factorial(s) to compute.\n";
         }
@@ -46,6 +47,18 @@ int main()
             std::cout << "Invalid number of Threads to solve\n";
         }
     }
+    std::cout << "got the input\n";
+
+    Threadpool threadpool;
+    for (int i = 1; i <= tasks; i++)
+    {
+        // Factorial factorial(i);
+        threadpool.addTask(i);
+        std::cout << "put the task\n";
+    }
+    threadpool.start(threads);
+
+    threadpool.stop();
 
     return 0;
 }
