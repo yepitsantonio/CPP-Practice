@@ -10,12 +10,20 @@
 class Threadpool
 {
 public:
+    static Threadpool &getInstance();
+    // No Threadpool cloning or assigning
+    Threadpool(Threadpool &clone) = delete;
+    void operator=(const Threadpool &) = delete;
+
     void start(int numThreads);
     void addTask(int numTasks);
     bool busy();
     void stop();
 
 private:
+    Threadpool();
+    static Threadpool *instance;
+
     void LoopThread();
     bool terminate = false;
     std::vector<std::thread> pool;

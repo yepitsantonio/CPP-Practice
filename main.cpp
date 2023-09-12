@@ -20,7 +20,7 @@ int main()
         std::getline(std::cin, input);
 
         std::stringstream mySS(input);
-        // User input is a positive integer greater than 0 with no decimals
+        // User input is a positive integer greater than 0 less than 20 with no decimals
         if (mySS >> tasks && tasks > 0 && tasks <= 20 && mySS.eof() && input.find('.') == std::string::npos)
         {
             std::cout << tasks << " Factorial(s) to compute.\n";
@@ -50,7 +50,10 @@ int main()
         }
     }
 
-    Threadpool threadpool;
+    // Threadpool is a singleton where only one threadpool can be instantiated, no public constructor for threadpool
+    Threadpool &threadpool = Threadpool::getInstance();
+
+    // Time the duration it takes to complete the tasks
     threadpool.start(threads);
     auto startTime = std::chrono::high_resolution_clock::now();
 
